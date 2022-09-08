@@ -1,0 +1,26 @@
+# Payslip Psuedocode
+- Store constants 
+1. Add welcome message
+2. Create way to receive inputs + validate data
+    a. First Name (chars only, >= 1 char)
+    b. Last Name (chars only, >= 1 char)
+    c. Annual Salary (must be positive integer)
+    d. Superannuation rate (must be 0-50 inclusive, numbers only)
+    e. Payment Start date (day, month, should it take year?)
+    f. Payment End date
+3. Calculate 
+    a. Rounding function - round up/down to nearest dollar if >= 50c
+        - check if it already exists as a method
+    b. Combined string of first and last name
+    c. Pay period = start date to end date
+        - store in variable number of FULL months (to be used in other calculations)
+    d. Gross income  = annual salary / 12 * months
+    e. Income tax
+        - conditional to figure out if annual salary is in which income bracket (if/else, switch)
+        - use annual salary to calculate, and then divide to monthly tax
+    f. Net income (monthly) = gross income - income tax
+    g. Superannuation = gross income x super rate
+4. Print payslip generated
+5. Print calculations
+6. Print thank you message
+
