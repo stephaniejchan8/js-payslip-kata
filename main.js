@@ -182,7 +182,9 @@ if (validInput) {
 };
 
 console.log('TA-DAAaaaAAaaAA!!!');
+console.log('');
 console.log('Your payslip has been generated:');
+console.log('');
 console.log('Name: ' + fullName);
 console.log('Pay Period: ' + payPeriod);
 // console.log('Days worked: ' + payDaysPerYr);
@@ -190,4 +192,5 @@ console.log('Gross Income: ' + grossIncome);
 console.log('Income tax: ' + incomeTax);
 console.log('Net Income: ' + netIncome);
 console.log('Superannuation: ' + superannuation);
+console.log('');
 console.log('Thank you for using MYOB!');
