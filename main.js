@@ -4,7 +4,7 @@
 const firstName = 'John';
 
 // PLEASE INPUT YOUR SURNAME:
-const surname = 'Doe';
+const surname = 'Doe1';
 
 // PLEASE ENTER YOUR ANNUAL SALARY:
 const annualSalary = 60050;
@@ -164,6 +164,7 @@ console.log('Welcome to the payslip generator!');
 console.log('');
 console.log('Processing inputted data.')
 console.log('*********************************');
+console.log('BEEP BOOP BOOP BZZZZZ BEEEEEEEP ......');
 validateNameLength(firstName);
 validateNameChars(firstName);
 validateNameLength(surname);
@@ -172,7 +173,6 @@ validateSalary(annualSalary);
 validateSuper(superRate);
 validateDate(startDate, endDate);
 
-console.log('BEEP BOOP BOOP BZZZZZ BEEEEEEEP ......');
 
 if (validInput) {
     console.log('Thank you for inputting your data.');
