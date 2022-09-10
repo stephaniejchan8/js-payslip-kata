@@ -109,26 +109,56 @@ const validateDate = (startDate, endDate) => {
 const fullName = firstName + ' ' + surname;
 
 const payPeriod = startDate.toLocaleDateString() + ' - ' + endDate.toLocaleDateString();
-const oneDayInMS = 1000 * 60 * 60 * 24;
-const payDaysPerYr = ((endDate.getTime() - startDate.getTime()) / oneDayInMS + 1) / 365;
-// const incomePerDay = annualSalary / 365;
-// const grossIncome = Math.round(incomePerDay * payDaysPerYr);
-const grossIncome = Math.round(annualSalary * payDaysPerYr);
+
+const startMonth = startDate.getMonth();
+const endMonth = endDate.getMonth();
+let payMonths = 1;
+if (endMonth > startMonth) {
+    payMonths = endMonth - startMonth + 1;
+} else if (endMonth < startMonth) {
+        payMonths = endMonth - startMonth + 13;
+}
+const payMonthsPerYr = payMonths / 12;
+
+const grossIncome = Math.round(annualSalary * payMonthsPerYr);
 
 let incomeTax = 0;
 if (annualSalary > taxThreshold) {
     for (let i = incomeBrackets.length - 1; i >= 0; i--) {
         if (annualSalary === incomeBrackets[i].lowerIncome) {
-            incomeTax = Math.round(incomeBrackets[i].baseTax * payDaysPerYr);
+            incomeTax = Math.round(incomeBrackets[i].baseTax * payMonthsPerYr);
             i = 0;
         } else if (annualSalary > incomeBrackets[i].lowerIncome) {
             const annualTaxForBracket = (annualSalary - incomeBrackets[i].lowerIncome) * incomeBrackets[i].taxRate;
-            incomeTax = Math.round((incomeBrackets[i].baseTax + annualTaxForBracket) * payDaysPerYr);
+            incomeTax = Math.round((incomeBrackets[i].baseTax + annualTaxForBracket) * payMonthsPerYr);
             i = 0;
         }
     }
 }
 
+const netIncome = grossIncome - incomeTax;
+
+const superannuation = Math.round(grossIncome * superRate / 100);
+
+// ! ************* CALCULATIONS PRO RATA BY DAY *****
+
+// const oneDayInMS = 1000 * 60 * 60 * 24;
+// const payDaysPerYr = ((endDate.getTime() - startDate.getTime()) / oneDayInMS + 1) / 365;
+// const grossIncome = Math.round(annualSalary * payDaysPerYr);
+
+// let incomeTax = 0;
+// if (annualSalary > taxThreshold) {
+//     for (let i = incomeBrackets.length - 1; i >= 0; i--) {
+//         if (annualSalary === incomeBrackets[i].lowerIncome) {
+//             incomeTax = Math.round(incomeBrackets[i].baseTax * payDaysPerYr);
+//             i = 0;
+//         } else if (annualSalary > incomeBrackets[i].lowerIncome) {
+//             const annualTaxForBracket = (annualSalary - incomeBrackets[i].lowerIncome) * incomeBrackets[i].taxRate;
+//             incomeTax = Math.round((incomeBrackets[i].baseTax + annualTaxForBracket) * payDaysPerYr);
+//             i = 0;
+//         }
+//     }
+// }
 
 // ************** RUNTIME *****************
 console.log('Welcome to the payslip generator!');
@@ -158,4 +188,6 @@ console.log('Pay Period: ' + payPeriod);
 // console.log('Days worked: ' + payDaysPerYr);
 console.log('Gross Income: ' + grossIncome);
 console.log('Income tax: ' + incomeTax);
-console.log
+console.log('Net Income: ' + netIncome);
+console.log('Superannuation: ' + superannuation);
+console.log('Thank you for using MYOB!');
