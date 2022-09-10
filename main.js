@@ -4,19 +4,19 @@
 const firstName = 'John';
 
 // PLEASE INPUT YOUR SURNAME:
-const surname = 'Doe';
+const surname = 'Doe1';
 
 // PLEASE ENTER YOUR ANNUAL SALARY:
-const annualSalary = 60050;
+const annualSalary = '60050q';
 
 // PLEASE ENTER YOUR SUPER RATE:
-const superRate = 9;
+const superRate = -9;
 
 // PLEASE ENTER YOUR PAYMENT START DATE:
-const startDate = new Date('1 March 2018');
+const startDate = new Date('1 March 2019');
 
 // PLEASE ENTER YOUR PAYMENT END DATE:
-const endDate = new Date('3 June 2018');
+const endDate = new Date('3 June 2016');
 
 // ********************** INCOME BRACKETS ************
 // function Bracket (lowerIncome, baseTax, taxRate) {
@@ -107,12 +107,13 @@ const validateDate = (startDate, endDate) => {
 // ************ CALCULATIONS **************
 const fullName = firstName + ' ' + surname;
 
-const payStartDate = new Date (startDate.getFullYear(), startDate.getMonth(), 1);
-const payEndDate = new Date (endDate.getFullYear(), endDate.getMonth() + 1, 0);
-const payPeriod = payStartDate.toLocaleDateString() + ' - ' + payEndDate.toLocaleDateString();
-
 const startMonth = startDate.getMonth();
 const endMonth = endDate.getMonth();
+
+const payStartDate = new Date (startDate.getFullYear(), startMonth, 1);
+const payEndDate = new Date (endDate.getFullYear(), endMonth + 1, 0);
+const payPeriod = payStartDate.toLocaleDateString() + ' - ' + payEndDate.toLocaleDateString();
+
 let payMonths = 1;
 if (endMonth > startMonth) {
     payMonths = endMonth - startMonth + 1;
