@@ -55,7 +55,6 @@ const bracket4 = {
 const taxThreshold = bracket1.lowerIncome;
 
 const incomeBrackets = [bracket1, bracket2, bracket3, bracket4];
-console.log(incomeBrackets);
 
 // ************** VALIDATE DATA *******************
 let validInput = true;
