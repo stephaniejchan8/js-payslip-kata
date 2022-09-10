@@ -13,10 +13,10 @@ const annualSalary = 60050;
 const superRate = 9;
 
 // PLEASE ENTER YOUR PAYMENT START DATE:
-const startDate = new Date('21 March 2017');
+const startDate = new Date('1 March 2018');
 
 // PLEASE ENTER YOUR PAYMENT END DATE:
-const endDate = new Date('1 March 2017');
+const endDate = new Date('31 March 2018');
 
 // ********************** INCOME BRACKETS ************
 // function Bracket (lowerIncome, baseTax, taxRate) {
@@ -51,6 +51,11 @@ const bracket4 = {
     baseTax: 54232,
     taxRate: 0.45
 };
+
+const taxThreshold = bracket1.lowerIncome;
+
+const incomeBrackets = [bracket1, bracket2, bracket3, bracket4];
+console.log(incomeBrackets);
 
 // ************** VALIDATE DATA *******************
 let validInput = true;
@@ -100,9 +105,35 @@ const validateDate = (startDate, endDate) => {
     }
 };
 
+// ************ CALCULATIONS **************
+const fullName = firstName + ' ' + surname;
+
+const payPeriod = startDate.toLocaleDateString() + ' - ' + endDate.toLocaleDateString();
+const oneDayInMS = 1000 * 60 * 60 * 24;
+const payDaysPerYr = ((endDate.getTime() - startDate.getTime()) / oneDayInMS + 1) / 365;
+// const incomePerDay = annualSalary / 365;
+// const grossIncome = Math.round(incomePerDay * payDaysPerYr);
+const grossIncome = Math.round(annualSalary * payDaysPerYr);
+
+let incomeTax = 0;
+if (annualSalary > taxThreshold) {
+    for (let i = incomeBrackets.length - 1; i >= 0; i--) {
+        if (annualSalary === incomeBrackets[i].lowerIncome) {
+            incomeTax = Math.round(incomeBrackets[i].baseTax * payDaysPerYr);
+            i = 0;
+        } else if (annualSalary > incomeBrackets[i].lowerIncome) {
+            const annualTaxForBracket = (annualSalary - incomeBrackets[i].lowerIncome) * incomeBrackets[i].taxRate;
+            incomeTax = Math.round((incomeBrackets[i].baseTax + annualTaxForBracket) * payDaysPerYr);
+            i = 0;
+        }
+    }
+}
+
 
 // ************** RUNTIME *****************
 console.log('Welcome to the payslip generator!');
+console.log('Processing inputted data.')
+console.log('*********************************');
 validateNameLength(firstName);
 validateNameChars(firstName);
 validateNameLength(surname);
@@ -110,10 +141,21 @@ validateNameChars(surname);
 validateSalary(annualSalary);
 validateSuper(superRate);
 validateDate(startDate, endDate);
+
+console.log('BEEP BOOP BOOP BZZZZZ BEEEEEEEP ......');
+
 if (validInput) {
     console.log('Thank you for inputting your data.');
 } else {
     console.log('Please input data in the correct format and try again.');
     throw new Error ('Invalid input');
 };
-console.log('test');
+
+console.log('TA-DAAaaaAAaaAA!!!');
+console.log('Your payslip has been generated:');
+console.log('Name: ' + fullName);
+console.log('Pay Period: ' + payPeriod);
+// console.log('Days worked: ' + payDaysPerYr);
+console.log('Gross Income: ' + grossIncome);
+console.log('Income tax: ' + incomeTax);
+console.log
