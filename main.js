@@ -4,7 +4,7 @@
 const firstName = 'John';
 
 // PLEASE INPUT YOUR SURNAME:
-const surname = 'Doe1';
+const surname = 'Doe';
 
 // PLEASE ENTER YOUR ANNUAL SALARY:
 const annualSalary = 60050;
@@ -16,7 +16,7 @@ const superRate = 9;
 const startDate = new Date('1 March 2018');
 
 // PLEASE ENTER YOUR PAYMENT END DATE:
-const endDate = new Date('31 March 2018');
+const endDate = new Date('3 June 2018');
 
 // ********************** INCOME BRACKETS ************
 // function Bracket (lowerIncome, baseTax, taxRate) {
@@ -107,7 +107,9 @@ const validateDate = (startDate, endDate) => {
 // ************ CALCULATIONS **************
 const fullName = firstName + ' ' + surname;
 
-const payPeriod = startDate.toLocaleDateString() + ' - ' + endDate.toLocaleDateString();
+const payStartDate = new Date (startDate.getFullYear(), startDate.getMonth(), 1);
+const payEndDate = new Date (endDate.getFullYear(), endDate.getMonth() + 1, 0);
+const payPeriod = payStartDate.toLocaleDateString() + ' - ' + payEndDate.toLocaleDateString();
 
 const startMonth = startDate.getMonth();
 const endMonth = endDate.getMonth();
