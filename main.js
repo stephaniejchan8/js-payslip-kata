@@ -162,6 +162,7 @@ const superannuation = Math.round(grossIncome * superRate / 100);
 
 // ************** RUNTIME *****************
 console.log('Welcome to the payslip generator!');
+console.log('');
 console.log('Processing inputted data.')
 console.log('*********************************');
 validateNameLength(firstName);
