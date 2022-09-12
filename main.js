@@ -58,7 +58,8 @@ const incomeBrackets = [bracket1, bracket2, bracket3, bracket4];
 
 // ************** VALIDATE DATA *******************
 let validInput = true;
-const specialChars = /[`!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?~]/;
+const regexNumbers = /[0-9]/;
+const regexSpecialChars = /[`!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?~]/;
 
 
 const invalidateData = () => {
@@ -73,7 +74,7 @@ const validateNameLength = (inputName) => {
 };
 
 const validateNameChars = (inputName) => {
-    if (/[0-9]/.test(inputName) || specialChars.test(inputName)) {
+    if (regexNumbers.test(inputName) || regexSpecialChars.test(inputName)) {
         console.log('Name can only contain letters.');
         invalidateData();
     }
@@ -81,9 +82,10 @@ const validateNameChars = (inputName) => {
 
 const validateSalary = (salary) => {
     if (!Number.isInteger(salary) || salary < 0) {
-        console.log('Salary must be a positive integer.');
         invalidateData();
+        return false;
     }
+    return true;
 };
 
 const validateSuper = (superRate) => {
@@ -110,19 +112,24 @@ const fullName = firstName + ' ' + surname;
 const payPeriod = startDate.toLocaleDateString() + ' - ' + endDate.toLocaleDateString();
 
 const oneDayInMS = 1000 * 60 * 60 * 24;
-const payDaysPerYr = ((endDate.getTime() - startDate.getTime()) / oneDayInMS + 1) / 365;
-const grossIncome = Math.round(annualSalary * payDaysPerYr);
+const noOfPayDaysInclusive = (endDate.getTime() - startDate.getTime()) / oneDayInMS + 1;
+// const noOfPayDaysPerYr = noOfPayDaysInclusive / 365;
+const daysInAYr = 365;
+const grossIncome = Math.round(annualSalary * noOfPayDaysInclusive / daysInAYr);
 
 let incomeTax = 0;
 if (annualSalary > taxThreshold) {
     for (let i = incomeBrackets.length - 1; i >= 0; i--) {
         if (annualSalary === incomeBrackets[i].lowerIncome) {
-            incomeTax = Math.round(incomeBrackets[i].baseTax * payDaysPerYr);
-            i = 0;
+            incomeTax = Math.round(incomeBrackets[i].baseTax * noOfPayDaysInclusive / daysInAYr);
+
+            break;
         } else if (annualSalary > incomeBrackets[i].lowerIncome) {
             const annualTaxForBracket = (annualSalary - incomeBrackets[i].lowerIncome) * incomeBrackets[i].taxRate;
-            incomeTax = Math.round((incomeBrackets[i].baseTax + annualTaxForBracket) * payDaysPerYr);
-            i = 0;
+
+            incomeTax = Math.round((incomeBrackets[i].baseTax + annualTaxForBracket) * noOfPayDaysInclusive / daysInAYr);
+
+            break;
         }
     }
 }
@@ -175,7 +182,9 @@ validateNameLength(firstName);
 validateNameChars(firstName);
 validateNameLength(surname);
 validateNameChars(surname);
-validateSalary(annualSalary);
+if (!validateSalary(annualSalary)) {
+    console.log('Salary should be a positive integer.');
+}
 validateSuper(superRate);
 validateDate(startDate, endDate);
 
